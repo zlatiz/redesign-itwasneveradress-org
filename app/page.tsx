@@ -1,13 +1,15 @@
 import Hero from "@/components/Hero";
-import FeaturesSection from "@/components/FeaturesSection";
+import FeatureCards from "@/components/FeatureCards";
 import StatsSection from "@/components/StatsSection";
+import StoriesSection from "@/components/StoriesSection";
 
 export default function Home() {
   return (
-    <main>
+    <>
       <Hero />
-      <FeaturesSection />
+      <FeatureCards />
       <StatsSection />
-    </main>
+      <StoriesSection />
+    </>
   );
 }
