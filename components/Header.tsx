@@ -1,58 +1,90 @@
-import Link from 'next/link';
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+
+const navItems = [
+  { text: "#ItWasNeverADress", href: "/" },
+  { text: "Share Your Story", href: "/share-your-story" },
+  { text: "About", href: "/about" },
+  { text: "Store", href: "https://www.zazzle.com/store/_itwasneveradress/products" },
+  { text: "Free Stuff", href: "/free-stuff" },
+  { text: "Press", href: "/press" },
+  { text: "Contact Us", href: "/contact-us" },
+];
 
 export default function Header() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
-    <header className="bg-white shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <span className="text-xl font-bold text-primary">#ItWasNeverADress</span>
+    <header className="absolute top-0 left-0 right-0 z-50 bg-transparent">
+      <nav className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+          <Link href="/" className="text-white font-bold text-lg">
+            #itwasneveradress
           </Link>
 
-          {/* Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            <Link
-              href="/share-your-stories"
-              className="text-gray-700 hover:text-primary transition-colors"
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-6">
+            {navItems.map((item) => (
+              <Link
+                key={item.text}
+                href={item.href}
+                className="text-white/80 hover:text-white text-sm transition-colors"
+                target={item.href.startsWith("http") ? "_blank" : undefined}
+                rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              >
+                {item.text}
+              </Link>
+            ))}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="lg:hidden text-white"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              Share Your Story
-            </Link>
-            <Link
-              href="/about"
-              className="text-gray-700 hover:text-primary transition-colors"
-            >
-              About
-            </Link>
-            <a
-              href="https://www.zazzle.com/store/_itwasneveradress/products"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-700 hover:text-primary transition-colors"
-            >
-              Store
-            </a>
-            <Link
-              href="/disrupt"
-              className="text-gray-700 hover:text-primary transition-colors"
-            >
-              Free Stuff
-            </Link>
-            <Link
-              href="/media"
-              className="text-gray-700 hover:text-primary transition-colors"
-            >
-              Press
-            </Link>
-            <Link
-              href="/contact-us"
-              className="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary-dark transition-colors"
-            >
-              Contact Us
-            </Link>
-          </nav>
+              {mobileMenuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
         </div>
-      </div>
+
+        {/* Mobile Navigation */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden mt-4 pb-4">
+            {navItems.map((item) => (
+              <Link
+                key={item.text}
+                href={item.href}
+                className="block text-white/80 hover:text-white py-2 text-sm"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {item.text}
+              </Link>
+            ))}
+          </div>
+        )}
+      </nav>
     </header>
   );
 }
